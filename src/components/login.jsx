@@ -1,11 +1,12 @@
-// Login.jsx
 import { useState } from "react";
+import axios from "axios";
 
 export default function Login() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     setFormData((prev) => ({
@@ -14,10 +15,23 @@ export default function Login() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Submitted:", formData);
-    // You can send the formData to your backend or perform login logic here
+    setMessage("Loading...");
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/login", formData);
+      if (res.data.success) {
+        setMessage("✅ Login successful!");
+        // optional: redirect to dashboard or store token
+        // localStorage.setItem('token', res.data.token);
+      } else {
+        setMessage("❌ " + res.data.message);
+      }
+    } catch (error) {
+      setMessage("❌ Login failed. Server error.");
+      console.error(error);
+    }
   };
 
   return (
@@ -29,8 +43,6 @@ export default function Login() {
           stroke="#f47a3b"
           strokeWidth="3"
           viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-          aria-hidden="true"
         >
           <path
             strokeLinecap="round"
@@ -80,6 +92,11 @@ export default function Login() {
             Sign In
           </button>
         </form>
+
+        {message && (
+          <p className="mt-4 text-sm text-center text-gray-600">{message}</p>
+        )}
+
         <p className="text-gray-500 text-xs mt-4">
           Don't have an account?{" "}
           <a href="/signup" className="text-[#f47a3b] font-semibold">

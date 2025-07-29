@@ -1,11 +1,14 @@
 import { useState } from "react";
+import axios from "axios";
 
 function SignUp() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
-    accountType: "Adopter", // default selected
+    accountType: "Adopter",
   });
+
+  const [message, setMessage] = useState("");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -16,10 +19,23 @@ function SignUp() {
     setFormData((prev) => ({ ...prev, accountType: type }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form Data:", formData);
-    // You can send this to backend here
+    setMessage("Creating account...");
+
+    try {
+      const res = await axios.post("http://localhost:5000/api/signup", formData);
+
+      if (res.data.success) {
+        setMessage("✅ Account created successfully!");
+        // optional: redirect to login page or dashboard
+      } else {
+        setMessage("❌ " + res.data.message);
+      }
+    } catch (error) {
+      console.error(error);
+      setMessage("❌ Signup failed. Try again.");
+    }
   };
 
   return (
@@ -40,10 +56,7 @@ function SignUp() {
         </p>
         <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
-            <label
-              htmlFor="email"
-              className="block text-xs font-semibold text-gray-900 mb-1"
-            >
+            <label htmlFor="email" className="block text-xs font-semibold text-gray-900 mb-1">
               Email
             </label>
             <input
@@ -57,10 +70,7 @@ function SignUp() {
             />
           </div>
           <div>
-            <label
-              htmlFor="password"
-              className="block text-xs font-semibold text-gray-900 mb-1"
-            >
+            <label htmlFor="password" className="block text-xs font-semibold text-gray-900 mb-1">
               Password
             </label>
             <input
@@ -74,9 +84,7 @@ function SignUp() {
             />
           </div>
           <div>
-            <p className="text-xs font-semibold text-gray-900 mb-2">
-              Account Type
-            </p>
+            <p className="text-xs font-semibold text-gray-900 mb-2">Account Type</p>
             <div className="flex gap-2">
               <button
                 type="button"
@@ -111,6 +119,9 @@ function SignUp() {
             Create Account
           </button>
         </form>
+        {message && (
+          <p className="text-center text-sm mt-4 text-gray-600">{message}</p>
+        )}
         <p className="text-center text-gray-500 text-xs mt-6">
           Already have an account?{" "}
           <a href="/login" className="text-[#f9733e] font-semibold">

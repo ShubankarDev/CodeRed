@@ -1,74 +1,43 @@
-import React from "react";
-//import "./Adoption.css"; // If you want to define line-clamp-3 or other utilities
+import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { FaHeart, FaMapMarkerAlt } from "react-icons/fa";
-
 import Navbar from "../navbar";
 
-const pets = [
-  {
-    name: "Buddy",
-    breed: "Golden Retriever",
-    age: "3 years old",
-    gender: "Male",
-    vaccinated: true,
-    location: "Downtown Shelter",
-    description:
-      "Buddy is a friendly and energetic Golden Retriever who loves playing fetch and swimming. He's great with kids...",
-    image:
-      "https://storage.googleapis.com/a1aa/image/04dcd111-94bc-4c56-674b-80e190d36d37.jpg",
-  },
-  {
-    name: "Whiskers",
-    breed: "Orange Tabby",
-    age: "2 years old",
-    gender: "Female",
-    vaccinated: true,
-    location: "North Branch",
-    description:
-      "Whiskers is a calm and affectionate cat who loves lounging in sunny spots and getting belly rubs. She's...",
-    image:
-      "https://storage.googleapis.com/a1aa/image/7cb91e21-e40b-471d-d875-d80a32795293.jpg",
-  },
-  {
-    name: "Charlie",
-    breed: "Mixed Breed",
-    age: "6 months old",
-    gender: "Male",
-    vaccinated: false,
-    location: "Downtown Shelter",
-    description:
-      "Charlie is a playful puppy with boundless energy and curiosity. He's eager to learn and would love an active...",
-    image:
-      "https://storage.googleapis.com/a1aa/image/030f4e5e-2eec-4902-42e5-73498854d4bf.jpg",
-  },
-  {
-    name: "Luna",
-    breed: "Russian Blue Mix",
-    age: "4 years old",
-    gender: "Female",
-    vaccinated: true,
-    location: "East Side Clinic",
-    description:
-      "Luna is an elegant and serene cat with stunning blue eyes. She enjoys quiet environments and gentle petting...",
-    image:
-      "https://storage.googleapis.com/a1aa/image/5b52d143-02fc-47d1-d5ba-d46f4f911d85.jpg",
-  },
-];
-
 const Adoption = () => {
+  const [pets, setPets] = useState([]);
+  const [search, setSearch] = useState("");
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/pets")
+      .then((res) => setPets(res.data))
+      .catch((err) => console.error("Error fetching pets:", err));
+  }, []);
+
+  const filteredPets = pets.filter(
+    (pet) =>
+      pet.name.toLowerCase().includes(search.toLowerCase()) ||
+      pet.breed.toLowerCase().includes(search.toLowerCase())
+  );
+
   return (
     <div className="bg-[#fffaf0] font-sans">
-      {/* HEADER */}
       <Navbar />
 
       {/* HERO */}
-      <section className="relative bg-cover bg-center h-[400px]" style={{ backgroundImage: `url('https://foothillsanimalshelter.org/wp-content/uploads/2021/01/Adoption-General-Images.jpg')` }}>
+      <section
+        className="relative bg-cover bg-center h-[400px]"
+        style={{
+          backgroundImage:
+            "url('https://foothillsanimalshelter.org/wp-content/uploads/2021/01/Adoption-General-Images.jpg')",
+        }}
+      >
         <div className="bg-black bg-opacity-40 h-full flex flex-col justify-center items-center text-center px-6">
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             Find Your New Best Friend 🐶🐱
           </h1>
           <p className="text-lg sm:text-xl text-white max-w-2xl">
-            Adopt   , don't shop. Give a loving home to a furry companion.
+            Adopt, don't shop. Give a loving home to a furry companion.
           </p>
           <a href="#adopt">
             <button className="mt-6 bg-[#f58220] text-white font-semibold px-6 py-3 rounded-lg hover:bg-[#d96f0a] transition">
@@ -84,6 +53,8 @@ const Adoption = () => {
         <input
           type="text"
           placeholder="Search by name or breed"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
           className="w-full sm:w-1/2 px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#f58220]"
         />
       </section>
@@ -91,7 +62,7 @@ const Adoption = () => {
       {/* ADOPTION CARDS */}
       <section className="py-12 px-6 bg-[#fff9f2]">
         <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {pets.map((pet, index) => (
+          {filteredPets.map((pet, index) => (
             <div key={index} className="bg-white rounded-xl shadow-md overflow-hidden flex flex-col">
               <div className="relative">
                 <img
