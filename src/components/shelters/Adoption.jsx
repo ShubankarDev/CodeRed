@@ -2,6 +2,8 @@ import React from "react";
 //import "./Adoption.css"; // If you want to define line-clamp-3 or other utilities
 import { FaHeart, FaMapMarkerAlt } from "react-icons/fa";
 
+import Navbar from "../navbar";
+
 const pets = [
   {
     name: "Buddy",
@@ -57,30 +59,10 @@ const Adoption = () => {
   return (
     <div className="bg-[#fffaf0] font-sans">
       {/* HEADER */}
-      <header className="bg-white shadow">
-        <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-          <div className="text-xl font-bold text-[#f58220] tracking-wide">
-            🐾 Paws & Hearts
-          </div>
-          <nav className="space-x-6 hidden md:flex">
-            <a href="#adopt" className="text-gray-700 hover:text-[#f58220] font-medium">
-              Adopt
-            </a>
-            <a href="#donate" className="text-gray-700 hover:text-[#f58220] font-medium">
-              Donate
-            </a>
-            <a href="#about" className="text-gray-700 hover:text-[#f58220] font-medium">
-              About
-            </a>
-            <a href="#contact" className="text-gray-700 hover:text-[#f58220] font-medium">
-              Contact
-            </a>
-          </nav>
-        </div>
-      </header>
+      <Navbar />
 
       {/* HERO */}
-      <section className="relative bg-cover bg-center h-[400px]" style={{ backgroundImage: `url('https://images.unsplash.com/photo-1598137260926-58b0d11149ee?auto=format&fit=crop&w=1050&q=80')` }}>
+      <section className="relative bg-cover bg-center h-[400px]" style={{ backgroundImage: `url('https://foothillsanimalshelter.org/wp-content/uploads/2021/01/Adoption-General-Images.jpg')` }}>
         <div className="bg-black bg-opacity-40 h-full flex flex-col justify-center items-center text-center px-6">
           <h1 className="text-4xl sm:text-5xl font-bold text-white mb-4">
             Find Your New Best Friend 🐶🐱
