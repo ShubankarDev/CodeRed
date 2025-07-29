@@ -61,8 +61,8 @@ const Navbar = () => (
       <a className="hover:text-gray-900" href="#">Donate</a>
     </div>
     <div className="flex space-x-3">
-      <button className="text-gray-800 bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-normal hover:bg-gray-50">Sign In</button>
-      <button className="bg-orange-500 hover:bg-orange-600 text-white rounded-md px-4 py-2 text-sm font-semibold">Get Started</button>
+      <button className="text-gray-800 bg-white border border-gray-300 rounded-md px-4 py-2 text-sm font-normal hover:bg-gray-50" onClick={() => window.location.href='/login'}>Sign In</button>
+      <button className="bg-orange-500 hover:bg-orange-600 text-white rounded-md px-4 py-2 text-sm font-semibold" onClick={() => window.location.href='/signup'}>Get Started</button>
     </div>
   </nav>
 );
