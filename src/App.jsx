@@ -5,6 +5,7 @@ import Login from "./components/login";
 import SignUp from "./components/signup";
 import Funding from './components/funding/Funding';
 import Adoption from "./components/shelters/Adoption";
+import Dashboard from "./components/shelters/Dashboard";
 // import Adoption from './components/shelters/Adoption';
 
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path = "/admin" element={<Admin />} />
+          <Route path = "/shelter_dashboard" element={<Dashboard />} />
           { <Route path = "/funding" element={<Funding />} /> }
           { <Route path = "/adoption" element={<Adoption />} /> }
           <Route path = "*" element={<NotFound />} />
